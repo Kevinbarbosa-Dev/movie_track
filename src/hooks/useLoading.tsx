@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useLoadingTimer } from "./useLoadingTimer";
 
 export function useLoading(
   intervalo: number,
@@ -8,23 +9,18 @@ export function useLoading(
     iniciarSeForVerdadeiro
   );
 
-  const referenciaDeTimerAtual = useRef<number | null>(null);
+  const { ativarCarregamento: ativarTimer, limparTimer } =
+    useLoadingTimer(intervalo);
 
   const ativarCarregamento = useCallback(
     (callback?: () => void) => {
       setEstaCarregando(true);
-
-      if (referenciaDeTimerAtual.current) {
-        window.clearTimeout(referenciaDeTimerAtual.current);
-      }
-
-      referenciaDeTimerAtual.current = window.setTimeout(() => {
+      ativarTimer(() => {
         setEstaCarregando(false);
-        referenciaDeTimerAtual.current = null;
         if (callback) callback();
-      }, intervalo);
+      });
     },
-    [intervalo]
+    [ativarTimer]
   );
 
   useEffect(() => {
@@ -33,9 +29,7 @@ export function useLoading(
     }
 
     return () => {
-      if (referenciaDeTimerAtual.current) {
-        clearTimeout(referenciaDeTimerAtual.current);
-      }
+      limparTimer();
     };
   }, [iniciarSeForVerdadeiro, ativarCarregamento]);
 

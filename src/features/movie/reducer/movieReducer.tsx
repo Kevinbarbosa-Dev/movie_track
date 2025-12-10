@@ -1,8 +1,9 @@
-import type { Movie, MovieDetails } from "../api/movieApi";
+import type { MovieDetails } from "../api/movieApi";
+import type { Movie } from "../types/movie";
 
 export type MovieBase = Pick<
   Movie,
-  "id" | "title" | "overview" | "backdrop_path" | "poster_path"
+  "id" | "title" | "overview" | "backdrop_path" | "poster_path" | "vote_average"
 > &
   Partial<MovieDetails>;
 

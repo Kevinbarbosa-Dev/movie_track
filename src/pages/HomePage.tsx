@@ -1,31 +1,30 @@
-import BannerPrincipal from "@/components/BannerPrincipal";
-import FilmeCard from "@/components/FilmeCard";
+import BannerPrincipal from "@/components/home/BannerPrincipal";
 import HeaderInicial from "@/components/home/HeaderInicial";
-import type { MovieDetails } from "@/features/movie/api/movieApi";
-import { sampleMovies } from "@/features/movie/Mock/SampleMovies";
-import { useEffect, useState } from "react";
+import { type MovieDetails } from "@/features/movie/api/movieApi";
+
+import FilmePoster from "@/components/FilmePoster";
+
+import useMoviesFetch from "@/hooks/useMoviesFetch";
 
 export default function HomePage() {
-  const [movies, setMovies] = useState<MovieDetails[]>([]);
+  const { state, genreMap } = useMoviesFetch({ fetchGenres: true });
+  const { loading, error, movies } = state;
 
-  useEffect(() => {
-    // simula um fetch inicial
-    setMovies(sampleMovies);
-  }, []);
   return (
     <div className="min-h-screen w-full gap-4">
       <HeaderInicial />
       <BannerPrincipal />
-      <div className="flex gap-4 overflow-x-auto px-4">
-        {movies.map((movie) => (
-          <FilmeCard
-            key={movie.id}
-            movie={movie}
-            genres={movie.genres?.map((g) => g.name) || []}
-            size="md"
-            onClick={() => console.log("Abrir detalhes de:", movie.id)}
-          />
-        ))}
+      <div className="flex gap-4 px-4 items-stretch">
+        {movies.map((movie) => {
+          return (
+            <FilmePoster
+              key={movie.id}
+              movie={movie as MovieDetails}
+              generosMap={genreMap}
+              nota={movie.vote_average}
+            />
+          );
+        })}
       </div>
     </div>
   );

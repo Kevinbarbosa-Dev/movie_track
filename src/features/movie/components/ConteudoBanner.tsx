@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { ConteudoSinopse, ConteudoTitulo } from "./ConteudoPoster";
 
 type ConteudoBannerProps = {
@@ -11,15 +11,17 @@ export default function ConteudoBanner({
   sinopse,
 }: ConteudoBannerProps) {
   return (
-    <Card className="relative h-full flex flex-col justify-end  border-none p-0">
-      <CardContent className="max-w-2/3 space-y-6 ">
-        <ConteudoTitulo className="md:text-2x1 text-lg">
-          {titulo}
-        </ConteudoTitulo>
-        <ConteudoSinopse className="mt-2 text-sm text-gray-200 leading-relaxed max-h-[4.5rem] overflow-hidden">
-          {sinopse}
-        </ConteudoSinopse>
+    <div className="w-full">
+      <CardContent className="p-0">
+        <div className="max-w-full">
+          <ConteudoTitulo className="md:text-3xl text-xl font-extrabold text-white">
+            {titulo}
+          </ConteudoTitulo>
+          <ConteudoSinopse className="mt-3 text-sm text-gray-200 leading-relaxed max-h-[6rem] overflow-hidden">
+            {sinopse}
+          </ConteudoSinopse>
+        </div>
       </CardContent>
-    </Card>
+    </div>
   );
 }

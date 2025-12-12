@@ -12,10 +12,12 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen w-full gap-4">
-      <HeaderInicial />
-      <BannerPrincipal />
+      <div className="relative">
+        <HeaderInicial />
+        <BannerPrincipal />
+      </div>
       <div className="flex gap-4 px-4 items-stretch">
-        {movies.map((movie) => {
+        {/* {movies.map((movie) => {
           return (
             <FilmePoster
               key={movie.id}
@@ -24,7 +26,7 @@ export default function HomePage() {
               nota={movie.vote_average}
             />
           );
-        })}
+        })} */}
       </div>
     </div>
   );

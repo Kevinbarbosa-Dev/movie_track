@@ -1,10 +1,9 @@
-import BannerPrincipal from "@/components/home/BannerPrincipal";
-import HeaderInicial from "@/components/home/HeaderInicial";
+import BannerPrincipal from "@/features/movie/components/home/Banner/BannerPrincipal";
+import HeaderInicial from "@/features/movie/components/home/HeaderInicial";
 import { type MovieDetails } from "@/features/movie/api/movieApi";
 
-import FilmePoster from "@/components/FilmePoster";
-
 import useMoviesFetch from "@/hooks/useMoviesFetch";
+import FilmePoster from "@/features/movie/components/home/Poster/FilmePoster";
 
 export default function HomePage() {
   const { state, genreMap } = useMoviesFetch({ fetchGenres: true });

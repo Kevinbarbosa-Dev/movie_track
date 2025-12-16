@@ -1,13 +1,14 @@
 import { getImageUrl } from "@/features/movie/api/movieApi";
-import { Card, CardContent } from "./ui/card";
+import BannerImage from "../Banner/BannerImage";
 import { degradeSombraBaixo } from "@/styles/Reutilizaveis";
-import BannerImage from "./home/BannerImage";
 import type { Movie } from "@/features/movie/types/movie";
 import {
   ConteudoContainer,
   ConteudoTitulo,
   ConteudoFooter,
 } from "@/features/movie/components/ConteudoPoster";
+
+import { Card, CardContent } from "@/components/ui/card";
 
 export interface FilmCardProps {
   movie: Movie;

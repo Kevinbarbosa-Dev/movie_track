@@ -6,8 +6,8 @@ import useMoviesFetch from "@/hooks/useMoviesFetch";
 import FilmePoster from "@/features/movie/components/home/Poster/FilmePoster";
 
 export default function HomePage() {
-  const { state, genreMap } = useMoviesFetch({ fetchGenres: true });
-  const { loading, error, movies } = state;
+  // const { state, genreMap } = useMoviesFetch({ fetchGenres: true });
+  // const { loading, error, movies } = state;
 
   return (
     <div className="min-h-screen w-full gap-4">

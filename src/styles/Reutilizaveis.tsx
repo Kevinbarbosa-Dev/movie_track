@@ -7,3 +7,5 @@ export const degradeSombraBaixo =
 export const tituloStyle = "text-white font-bold leading-tight truncate";
 export const generoStyleBadge =
   "flex items-center text-[10px] px-2 py-0.5 rounded-md border border-white/10 bg-black/30 text-gray-200";
+export const tamanhosBannerThumbnails =
+  "w-[170px] md:w-[210px] lg:w-[248px] h-[96px] md:h-[112px] lg:h-[142px]";

@@ -1,5 +1,4 @@
 import { getImageUrl } from "@/features/movie/api/movieApi";
-import BannerImage from "../Banner/BannerImage";
 import { degradeSombraBaixo } from "@/styles/Reutilizaveis";
 import type { Movie } from "@/features/movie/types/movie";
 import {
@@ -9,6 +8,7 @@ import {
 } from "@/features/movie/components/ConteudoPoster";
 
 import { Card, CardContent } from "@/components/ui/card";
+import Imagem from "@/components/imagem";
 
 export interface FilmCardProps {
   movie: Movie;
@@ -31,7 +31,7 @@ export default function FilmePoster({
   return (
     <Card className="relative w-[200px] h-[300px] rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group flex-shrink-0">
       <CardContent className="p-0">
-        <BannerImage url={posterUrl} titulo={movie.title} />
+        <Imagem urlImage={posterUrl} title={movie.title} />
 
         <div className={degradeSombraBaixo} />
 

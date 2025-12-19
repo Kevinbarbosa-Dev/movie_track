@@ -22,7 +22,7 @@ export const IMAGE_SIZES = {
   backdrop: {
     small: "w300",
     medium: "w780",
-    large: "w1280", // Recommended for banners
+    large: "w1280",
     original: "original",
   },
   poster: {
@@ -34,7 +34,6 @@ export const IMAGE_SIZES = {
   },
 };
 
-// Helper function to build image URLs - client-safe
 export const getImageUrl = (
   path: string | null,
   type: "backdrop" | "poster" = "backdrop",
@@ -84,4 +83,54 @@ export async function fetchGenres(signal?: AbortSignal) {
   return Array.isArray(data?.genres)
     ? (data.genres as { id: number; name: string }[])
     : [];
+}
+
+export async function getMovieTrailer(movieId: number): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `${BASE}/movie/${movieId}/videos?api_key=${API_KEY}&language=pt-BR`
+    );
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const trailer = data.results?.find(
+      (video: any) =>
+        (video.type === "Trailer" || video.type === "Teaser") &&
+        video.site === "YouTube"
+    );
+
+    if (trailer) {
+      return `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+    }
+
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getMovieImages(
+  movieId: number,
+  count = 3
+): Promise<string[]> {
+  try {
+    const res = await fetch(
+      `${BASE}/movie/${movieId}/images?api_key=${API_KEY}`
+    );
+
+    if (!res.ok) return [];
+
+    const data = await res.json();
+
+    // Get backdrop images (scene screenshots) and filter out null/undefined
+    const backdrops = (data.backdrops || [])
+      .map((img: any) => img.file_path)
+      .filter(Boolean)
+      .slice(0, count);
+
+    return backdrops;
+  } catch (error) {
+    return [];
+  }
 }

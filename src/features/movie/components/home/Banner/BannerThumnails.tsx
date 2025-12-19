@@ -10,9 +10,14 @@ import { ConteudoTitulo } from "../../ConteudoPoster";
 type Props = {
   movies: MovieBase[];
   maxVisible?: number;
+  onSelect?: (movieId: number) => void;
 };
 
-export default function BannerThumbnails({ movies, maxVisible = 6 }: Props) {
+export default function BannerThumbnails({
+  movies,
+  maxVisible = 6,
+  onSelect,
+}: Props) {
   const items = movies.slice(0, maxVisible);
 
   return (
@@ -27,6 +32,7 @@ export default function BannerThumbnails({ movies, maxVisible = 6 }: Props) {
               <button
                 key={m.id}
                 aria-label={m.title}
+                onClick={() => onSelect?.(m.id)}
                 className={`${tamanhosBannerThumbnails} group relative z-40 flex-shrink-0 rounded-lg overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-transform duration-300 hover:z-50`}
               >
                 <Imagem urlImage={urlImage} title={m.title} />

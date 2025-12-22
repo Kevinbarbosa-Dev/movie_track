@@ -29,7 +29,10 @@ export default function FilmePoster({
     .slice(0, 2);
 
   return (
-    <Card className="relative w-[200px] h-[300px] rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group flex-shrink-0">
+    <Card
+      className="relative w-[200px] rounded overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group flex-shrink-0 p-0"
+      p-0
+    >
       <CardContent className="p-0">
         <Imagem urlImage={posterUrl} title={movie.title} />
 

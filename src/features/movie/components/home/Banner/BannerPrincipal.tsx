@@ -117,7 +117,7 @@ export default function BannerPrincipal({ movieId }: MovieBannerProps) {
         />
       </Card>
 
-      <div className="relative z-50 pointer-events-none">
+      <div className="relative z-50 pointer-events-none border border-dashed border-purple-950">
         <div className="pointer-events-auto">
           {movies && movies.length > 1 && (
             <BannerThumbnails

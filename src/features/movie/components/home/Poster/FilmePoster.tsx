@@ -1,6 +1,7 @@
 import { getImageUrl } from "@/features/movie/api/movieApi";
 import { degradeSombraBaixo } from "@/styles/Reutilizaveis";
 import type { Movie } from "@/features/movie/types/movie";
+import type { MovieBase } from "@/features/movie/reducer/movieReducer";
 import {
   ConteudoContainer,
   ConteudoTitulo,
@@ -11,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Imagem from "@/components/imagem";
 
 export interface FilmCardProps {
-  movie: Movie;
+  movie: Movie | MovieBase;
   generosMap: Record<number, string>;
   nota?: number;
 }
@@ -23,7 +24,9 @@ export default function FilmePoster({
 }: FilmCardProps) {
   const posterUrl = getImageUrl(movie?.poster_path ?? null, "poster", "w342");
 
-  const generos = movie.genre_ids
+  const genreIds =
+    movie.genre_ids ?? (movie as any).genres?.map((g: any) => g.id) ?? [];
+  const generos = (genreIds as number[])
     .map((id) => generosMap[id])
     .filter(Boolean)
     .slice(0, 2);

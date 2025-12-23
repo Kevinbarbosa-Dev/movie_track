@@ -1,9 +1,5 @@
 import { Card } from "@/components/ui/card";
-import {
-  getImageUrl,
-  getMovieImages,
-  getMovieTrailer,
-} from "@/features/movie/api/movieApi";
+import { getImageUrl, getMovieImages } from "@/features/movie/api/movieApi";
 import ConteudoBanner from "@/features/movie/components/home/Banner/ConteudoBanner";
 import SkeletonBanner from "@/features/movie/components/SkeletonBanner";
 import { type MovieBase } from "@/features/movie/reducer/movieReducer";
@@ -23,31 +19,21 @@ export default function BannerPrincipal({ movieId }: MovieBannerProps) {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const { state } = useMoviesFetch({ movieId });
   const { loading, movies, error } = state;
-  const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
-  const [showTrailer, setShowTrailer] = useState(false);
   const [sceneImages, setSceneImages] = useState<string[]>([]);
   const currentMovie = movies[currentMovieIndex] ?? null;
 
   useEffect(() => {
     if (!currentMovie) {
       setSceneImages([]);
-      setTrailerUrl(null);
       return;
     }
-
-    const fetchTrailer = async () => {
-      const url = await getMovieTrailer(currentMovie.id);
-      setTrailerUrl(url);
-    };
 
     const fetchSceneImages = async () => {
       const images = await getMovieImages(currentMovie.id);
       setSceneImages(images);
     };
 
-    fetchTrailer();
     fetchSceneImages();
-    setShowTrailer(false);
   }, [currentMovie?.id]);
 
   if (error) {
@@ -72,7 +58,7 @@ export default function BannerPrincipal({ movieId }: MovieBannerProps) {
     return <NenhumBanner />;
   }
 
-  const url = getImageUrl(first.backdrop_path, "backdrop", "w1280");
+  const url = getImageUrl(first.backdrop_path, "backdrop");
 
   const nextMovie = () => {
     setCurrentMovieIndex((i) => (movies.length ? (i + 1) % movies.length : 0));
@@ -117,7 +103,7 @@ export default function BannerPrincipal({ movieId }: MovieBannerProps) {
         />
       </Card>
 
-      <div className="relative z-50 pointer-events-none border border-dashed border-purple-950">
+      <div className="relative z-50 pointer-events-none">
         <div className="pointer-events-auto">
           {movies && movies.length > 1 && (
             <BannerThumbnails

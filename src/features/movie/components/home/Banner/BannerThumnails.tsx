@@ -15,18 +15,18 @@ type Props = {
 
 export default function BannerThumbnails({
   movies,
-  maxVisible = 6,
+  maxVisible,
   onSelect,
 }: Props) {
   const items = movies.slice(0, maxVisible);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 bottom-[-8.5rem] z-50 w-full pointer-events-auto">
+    <div className="absolute left-1/2 -translate-x-1/2 bottom-[-10.5rem] z-50 w-full pointer-events-auto">
       <div className="mx-4 md:mx-0">
         <div className="flex gap-2 overflow-x-auto overflow-y-visible px-2">
           {items.map((m) => {
             const urlImage =
-              getImageUrl(m.backdrop_path, "backdrop", "w342") ?? null;
+              getImageUrl(m.backdrop_path, "backdrop", "w500") ?? null;
 
             return (
               <button

@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from "react";
 import {
   fetchGenres,
-  fetchMovieDetails,
   fetchPopularMovies,
+  fetchMovieDetails,
 } from "@/features/movie/api/movieApi";
 import {
   initialState,
@@ -48,8 +48,7 @@ export default function useMoviesFetch({
           const detalhes = await fetchMovieDetails(movieId, ac.signal);
           resultado = [detalhes];
         } else {
-          const populares = await fetchPopularMovies(1, ac.signal);
-          resultado = populares;
+          resultado = await fetchPopularMovies(1, ac.signal);
         }
 
         dispatch({ type: "FETCH_SUCCESS", payload: resultado });

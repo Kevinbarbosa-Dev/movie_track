@@ -1,6 +1,7 @@
 import type { Movie } from "../types/movie";
+import { IMAGE_SIZES } from "./imageSizes";
 
-const API_KEY = "10d2820a72cd116ea036df0501d570a1"; // pegue em https://developer.themoviedb.org/docs
+const API_KEY = "10d2820a72cd116ea036df0501d570a1";
 const BASE = "https://api.themoviedb.org/3";
 const IMAGE_BASE = "https://image.tmdb.org/t/p";
 
@@ -18,22 +19,6 @@ export interface MovieDetails extends Movie {
   }[];
 }
 
-export const IMAGE_SIZES = {
-  backdrop: {
-    small: "w300",
-    medium: "w780",
-    large: "w1280",
-    original: "original",
-  },
-  poster: {
-    small: "w154",
-    medium: "w342",
-    large: "w500",
-    xlarge: "w780",
-    original: "original",
-  },
-};
-
 export const getImageUrl = (
   path: string | null,
   type: "backdrop" | "poster" = "backdrop",
@@ -43,6 +28,27 @@ export const getImageUrl = (
 ) => {
   return path ? `${IMAGE_BASE}/${size}${path}` : `/placeholder_poster.png`;
 };
+
+const movieDetailsCache = new Map<number, MovieDetails>();
+
+export async function fetchMovieDetails(id: number, signal?: AbortSignal) {
+  // retorna cache imediatamente se existir
+  const cached = movieDetailsCache.get(id);
+  if (cached) return cached;
+  const res = await fetch(
+    `${BASE}/movie/${id}?api_key=${API_KEY}&language=pt-BR`,
+    { signal }
+  );
+  if (!res.ok) {
+    throw new Error(`TMDB movie details fetch failed: ${res.status}`);
+  }
+  const data = await res.json();
+  // só guarda no cache se não foi abortado
+  if (!signal || !signal.aborted) {
+    movieDetailsCache.set(id, data);
+  }
+  return data as MovieDetails;
+}
 
 export async function fetchPopularMovies(page = 1, signal?: AbortSignal) {
   const res = await fetch(
@@ -59,18 +65,6 @@ export async function fetchPopularMovies(page = 1, signal?: AbortSignal) {
     .slice(0, 10);
 
   return filtrarFilmes;
-}
-
-export async function fetchMovieDetails(id: number, signal?: AbortSignal) {
-  const res = await fetch(
-    `${BASE}/movie/${id}?api_key=${API_KEY}&language=pt-BR`,
-    { signal }
-  );
-  if (!res.ok) {
-    throw new Error(`TMDB movie details fetch failed: ${res.status}`);
-  }
-  const data = await res.json();
-  return data as MovieDetails;
 }
 
 export async function fetchGenres(signal?: AbortSignal) {
